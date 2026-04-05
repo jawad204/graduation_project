@@ -1,0 +1,14 @@
+[
+  {"image_path": "dataset/images/portrait_pass_01.jpg", "use_case": "portrait",  "label": "pass"},
+  {"image_path": "dataset/images/portrait_fail_01.jpg", "use_case": "portrait",  "label": "fail"},
+  {"image_path": "dataset/images/outdoor_pass_01.jpg",  "use_case": "outdoor",   "label": "pass"},
+  {"image_path": "dataset/images/outdoor_fail_01.jpg",  "use_case": "outdoor",   "label": "fail"},
+  {"image_path": "dataset/images/lowlight_pass_01.jpg", "use_case": "low_light", "label": "pass"},
+  {"image_path": "dataset/images/lowlight_fail_01.jpg", "use_case": "low_light", "label": "fail"},
+  {"image_path": "dataset/images/group_pass_01.jpg",    "use_case": "group",     "label": "pass"},
+  {"image_path": "dataset/images/group_fail_01.jpg",    "use_case": "group",     "label": "fail"},
+  {"image_path": "dataset/images/indoor_pass_01.jpg",   "use_case": "indoor",    "label": "pass"},
+  {"image_path": "dataset/images/indoor_fail_01.jpg",   "use_case": "indoor",    "label": "fail"},
+  {"image_path": "dataset/images/action_pass_01.jpg",   "use_case": "action",    "label": "pass"},
+  {"image_path": "dataset/images/action_fail_01.jpg",   "use_case": "action",    "label": "fail"}
+]

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}My Photos — PhotoBook{% endblock %}
+{% block content %}
+
+<div class="flex" style="min-height: calc(100vh - 56px);">
+  <div class="sidebar">
+    <div class="sidebar-title">Customer</div>
+    <a href="{% url 'customer_dashboard' %}">🏠 Dashboard</a>
+    <a href="{% url 'calendar' %}">📅 Book a Session</a>
+  </div>
+
+  <div class="main-content">
+
+    <div class="flex justify-between align-center" style="margin-bottom:1.5rem;">
+      <div>
+        <h1 style="font-size:1.4rem; color:#1e3a5f;">My Photos 📸</h1>
+        <p class="text-muted text-small">
+          Session on <strong>{{ booking.session_date }}</strong> at <strong>{{ booking.time_12h }}</strong>
+        </p>
+      </div>
+      <a href="{% url 'customer_dashboard' %}" class="btn btn-outline">← Back</a>
+    </div>
+
+    {% if photos %}
+    <p class="text-muted" style="margin-bottom:1rem;">
+      <strong>{{ photos.count }}</strong> photo{% if photos.count != 1 %}s{% endif %} ready for you!
+    </p>
+    <div class="photo-grid">
+      {% for photo in photos %}
+      <div class="photo-card">
+        <a href="{{ photo.image.url }}" target="_blank">
+          <img src="{{ photo.image.url }}" alt="Photo {{ forloop.counter }}">
+        </a>
+        <div class="photo-card-body flex justify-between align-center">
+          <span class="text-muted text-small">Photo {{ forloop.counter }}</span>
+          <a href="{{ photo.image.url }}" download class="btn btn-outline btn-sm">⬇ Download</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <span class="icon">⏳</span>
+      <h3>Photos Not Ready Yet</h3>
+      <p>Your photographer is still processing your session. Check back soon!</p>
+      <a href="{% url 'customer_dashboard' %}" class="btn btn-primary mt-2">Back to Dashboard</a>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

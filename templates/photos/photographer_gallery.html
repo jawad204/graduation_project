@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block title %}Booking #{{ booking.id }} — PhotoBook{% endblock %}
+{% block content %}
+
+<div class="flex" style="min-height: calc(100vh - 56px);">
+  <div class="sidebar">
+    <div class="sidebar-title">Photographer</div>
+    <a href="{% url 'photographer_dashboard' %}">🏠 All Bookings</a>
+    <a href="{% url 'calendar' %}">📅 Calendar</a>
+  </div>
+
+  <div class="main-content">
+
+    <!-- Header -->
+    <div class="flex justify-between align-center" style="margin-bottom:1.5rem;">
+      <div>
+        <h1 style="font-size:1.4rem; color:#1e3a5f;">Booking #{{ booking.id }}</h1>
+        <p class="text-muted text-small">
+          👤 {{ booking.customer.username }} &nbsp;|&nbsp;
+          📅 {{ booking.session_date }} &nbsp;|&nbsp;
+          🕐 {{ booking.time_12h }}
+        </p>
+      </div>
+      <a href="{% url 'photographer_dashboard' %}" class="btn btn-outline">← Back</a>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-number" id="total-count">{{ photos.count }}</div>
+        <div class="stat-label">Total Photos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color:#16a34a;" id="pass-count">{{ photos|length }}</div>
+        <div class="stat-label">Passing</div>
+      </div>
+    </div>
+
+    <!-- Upload -->
+    <div class="upload-box">
+      <h3>📤 Upload Photos</h3>
+      <div class="flex gap-2 align-center" style="flex-wrap:wrap;">
+        <input type="file" id="photo-input" multiple accept="image/*" style="flex:1; min-width:200px;">
+        <button onclick="uploadPhotos()" class="btn btn-primary">Upload & Analyse</button>
+      </div>
+      <p class="text-muted text-small mt-1">Select multiple photos. The AI pipeline runs automatically on each one.</p>
+      <div id="upload-status" class="text-small mt-1" style="color:#2563eb;"></div>
+    </div>
+
+    <!-- Photo grid -->
+    {% if photos %}
+    <h3 style="margin-bottom:1rem; color:#1e3a5f;">All Photos ({{ photos.count }})</h3>
+    <div class="photo-grid" id="photo-grid">
+      {% for photo in photos %}
+      <div class="photo-card" id="photo-{{ photo.id }}">
+        <a href="{{ photo.image.url }}" target="_blank">
+          <img src="{{ photo.image.url }}" alt="Photo {{ photo.id }}">
+        </a>
+        <div class="photo-card-body">
+          <div class="flex justify-between align-center">
+            <span class="badge badge-{{ photo.final_result }}">{{ photo.final_result|upper }}</span>
+            {% if photo.override_by_photographer %}
+            <span class="override-tag">overridden</span>
+            {% endif %}
+          </div>
+          {% if photo.use_case %}
+          <p class="text-small text-muted mt-1">Use case: <strong>{{ photo.use_case }}</strong></p>
+          {% endif %}
+          <p class="text-small text-muted">AI: {{ photo.ai_result|upper }}</p>
+          <div class="photo-card-actions">
+            <button onclick="overridePhoto({{ photo.id }}, 'approve')" class="btn btn-success btn-sm">✓ Approve</button>
+            <button onclick="overridePhoto({{ photo.id }}, 'reject')" class="btn btn-danger btn-sm">✗ Reject</button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <span class="icon">🖼️</span>
+      <h3>No photos yet</h3>
+      <p>Upload photos above to start the AI analysis.</p>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  async function uploadPhotos() {
+    const files  = document.getElementById('photo-input').files;
+    const status = document.getElementById('upload-status');
+    if (!files.length) { alert('Please select photos first.'); return; }
+
+    status.textContent = `Uploading ${files.length} photo(s)...`;
+
+    const formData = new FormData();
+    for (const f of files) formData.append('images', f);
+
+    const res = await fetch('/photos/api/upload/{{ booking.id }}/', {
+      method: 'POST',
+      headers: { 'X-CSRFToken': getCookie('csrftoken') },
+      body: formData,
+    });
+
+    if (res.ok) {
+      status.textContent = 'Done! Reloading...';
+      setTimeout(() => location.reload(), 800);
+    } else {
+      status.textContent = 'Upload failed. Try again.';
+    }
+  }
+
+  async function overridePhoto(id, action) {
+    const res = await fetch(`/photos/api/${id}/override/`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+      body: JSON.stringify({ action }),
+    });
+    if (res.ok) location.reload();
+    else alert('Override failed.');
+  }
+
+  function getCookie(name) {
+    const v = `; ${document.cookie}`;
+    const p = v.split(`; ${name}=`);
+    if (p.length === 2) return p.pop().split(';').shift();
+  }
+</script>
+{% endblock %}

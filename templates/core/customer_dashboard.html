@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}My Dashboard — PhotoBook{% endblock %}
+{% block content %}
+
+<div class="flex" style="min-height: calc(100vh - 56px);">
+  <div class="sidebar">
+    <div class="sidebar-title">Customer</div>
+    <a href="{% url 'customer_dashboard' %}" class="active">🏠 Dashboard</a>
+    <a href="{% url 'calendar' %}">📅 Book a Session</a>
+  </div>
+
+  <div class="main-content">
+    <div class="page-header">
+      <h1>Hello, {{ user.username }} 👋</h1>
+      <p>Here are all your booked sessions.</p>
+    </div>
+
+    {% if bookings %}
+    <div class="card-grid">
+      {% for booking in bookings %}
+      <div class="card">
+        <div class="flex justify-between align-center" style="margin-bottom:.75rem;">
+          <strong>{{ booking.session_date }}</strong>
+          <span class="badge badge-{{ booking.status }}">{{ booking.status }}</span>
+        </div>
+        <p class="text-muted text-small">🕐 {{ booking.time_12h }}</p>
+        {% if booking.notes %}
+        <p class="text-small" style="margin-top:.4rem;">{{ booking.notes }}</p>
+        {% endif %}
+        <hr class="divider">
+        <div class="flex gap-1">
+          {% if booking.status == 'completed' %}
+          <a href="{% url 'customer_gallery' booking.id %}" class="btn btn-success btn-sm">📸 View Photos</a>
+          {% endif %}
+          {% if booking.status == 'confirmed' %}
+          <button onclick="cancelBooking({{ booking.id }}, this)" class="btn btn-danger btn-sm">Cancel</button>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <span class="icon">📅</span>
+      <h3>No bookings yet</h3>
+      <p>Book your first session from the calendar.</p>
+      <a href="{% url 'calendar' %}" class="btn btn-primary mt-2">Book a Session</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  async function cancelBooking(id, btn) {
+    if (!confirm('Cancel this booking?')) return;
+    const res = await fetch(`/bookings/api/${id}/cancel/`, {
+      method: 'PATCH',
+      headers: { 'X-CSRFToken': getCookie('csrftoken') }
+    });
+    if (res.ok) location.reload();
+    else alert('Could not cancel. Try again.');
+  }
+
+  function getCookie(name) {
+    const v = `; ${document.cookie}`;
+    const p = v.split(`; ${name}=`);
+    if (p.length === 2) return p.pop().split(';').shift();
+  }
+</script>
+{% endblock %}

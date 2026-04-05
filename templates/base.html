@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}PhotoBook{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/main.css">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-brand">📷 Berwaz studio</div>
+    {% if user.is_authenticated %}
+    <div class="navbar-right">
+      <span class="navbar-user">{{ user.username }}
+        <span class="role-badge role-{{ user.profile.role }}">{{ user.profile.role }}</span>
+      </span>
+      <a href="{% url 'logout' %}" class="btn btn-outline-white">Logout</a>
+    </div>
+    {% endif %}
+  </nav>
+
+  {% if messages %}
+  <div class="messages-container">
+    {% for message in messages %}
+    <div class="message message-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="page-wrapper">
+    {% block content %}{% endblock %}
+  </div>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
