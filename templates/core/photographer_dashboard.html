@@ -2,7 +2,7 @@
 {% block title %}Photographer Dashboard — PhotoBook{% endblock %}
 {% block content %}
 
-<div class="flex" style="min-height: calc(100vh - 56px);">
+<div class="app-layout">
   <div class="sidebar">
     <div class="sidebar-title">Photographer</div>
     <a href="{% url 'photographer_dashboard' %}" class="active">🏠 All Bookings</a>
@@ -41,7 +41,7 @@
             <td>
               <div class="flex gap-1">
                 <a href="{% url 'photographer_booking_detail' booking.id %}" class="btn btn-primary btn-sm">Manage</a>
-                <select onchange="updateStatus({{ booking.id }}, this.value, this)" style="font-size:.82rem; padding:.25rem .5rem; border-radius:5px; border:1.5px solid #d1d5db;">
+                <select class="form-select-inline" onchange="updateStatus({{ booking.id }}, this.value, this)">
                   <option value="">Change status</option>
                   <option value="completed">Completed</option>
                   <option value="cancelled">Cancelled</option>

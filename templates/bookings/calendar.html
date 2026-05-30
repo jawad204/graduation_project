@@ -2,12 +2,6 @@
 {% block title %}Calendar — PhotoBook{% endblock %}
 {% block extra_css %}
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
-<style>
-  .legend { display: flex; gap: 1.5rem; margin-bottom: 1rem; font-size: .85rem; align-items: center; }
-  .legend-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-  .dot-mine   { background: #2563eb; }
-  .dot-taken  { background: #ef4444; }
-</style>
 {% endblock %}
 
 {% block content %}
@@ -31,12 +25,12 @@
       <p>{% if user.profile.role == 'customer' %}Click an available date to book.{% else %}Viewing all sessions.{% endif %}</p>
     </div>
 
-    <div class="legend">
-      <span><span class="legend-dot dot-mine"></span> Your booking</span>
-      <span><span class="legend-dot dot-taken"></span> Already booked</span>
+    <div class="calendar-legend">
+      <span><span class="calendar-legend-dot calendar-legend-dot--mine" aria-hidden="true"></span> Your booking</span>
+      <span><span class="calendar-legend-dot calendar-legend-dot--taken" aria-hidden="true"></span> Already booked</span>
     </div>
 
-    <div class="card">
+    <div class="card calendar-card">
       <div id="calendar"></div>
     </div>
   </div>
@@ -71,7 +65,7 @@
     </div>
     <div id="modal-error" class="form-error" style="display:none;"></div>
     <div class="modal-footer">
-      <button onclick="confirmBooking()" class="btn btn-primary" style="flex:1;">Confirm Booking</button>
+      <button onclick="confirmBooking()" class="btn btn-primary">Confirm Booking</button>
       <button onclick="closeModal()" class="btn btn-outline">Cancel</button>
     </div>
   </div>

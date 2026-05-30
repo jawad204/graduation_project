@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}My Photos — PhotoBook{% endblock %}
+{% block extra_css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/customer_gallery.css' %}?v=4">
+{% endblock %}
 {% block content %}
 
-<div class="flex" style="min-height: calc(100vh - 56px);">
+<div class="app-layout gallery-shell customer-gallery-view">
   <div class="sidebar">
     <div class="sidebar-title">Customer</div>
     <a href="{% url 'customer_dashboard' %}">🏠 Dashboard</a>
@@ -10,43 +17,53 @@
   </div>
 
   <div class="main-content">
+    <div class="customer-gallery-inner">
 
-    <div class="flex justify-between align-center" style="margin-bottom:1.5rem;">
-      <div>
-        <h1 style="font-size:1.4rem; color:#1e3a5f;">My Photos 📸</h1>
-        <p class="text-muted text-small">
-          Session on <strong>{{ booking.session_date }}</strong> at <strong>{{ booking.time_12h }}</strong>
+      <header class="gallery-header-card">
+        <div class="gallery-header-main">
+          <p class="gallery-eyebrow">Your gallery</p>
+          <h1 class="gallery-title">Session memories</h1>
+          <p class="gallery-lead">Tap a photo to view it full screen. Downloads keep the original file.</p>
+          <div class="session-pills" role="list" aria-label="Session details">
+            <span class="session-pill" role="listitem">📅 {{ booking.session_date }}</span>
+            <span class="session-pill session-pill--muted" role="listitem">🕐 {{ booking.time_12h }}</span>
+          </div>
+        </div>
+        <a href="{% url 'customer_dashboard' %}" class="btn btn-gallery-back">← Dashboard</a>
+      </header>
+
+      {% if photos %}
+      <div class="gallery-toolbar">
+        <p class="gallery-count">
+          <span class="gallery-count-dot" aria-hidden="true"></span>
+          <strong>{{ photos.count }}</strong> photo{% if photos.count != 1 %}s{% endif %} delivered
         </p>
       </div>
-      <a href="{% url 'customer_dashboard' %}" class="btn btn-outline">← Back</a>
-    </div>
-
-    {% if photos %}
-    <p class="text-muted" style="margin-bottom:1rem;">
-      <strong>{{ photos.count }}</strong> photo{% if photos.count != 1 %}s{% endif %} ready for you!
-    </p>
-    <div class="photo-grid">
-      {% for photo in photos %}
-      <div class="photo-card">
-        <a href="{{ photo.image.url }}" target="_blank">
-          <img src="{{ photo.image.url }}" alt="Photo {{ forloop.counter }}">
-        </a>
-        <div class="photo-card-body flex justify-between align-center">
-          <span class="text-muted text-small">Photo {{ forloop.counter }}</span>
-          <a href="{{ photo.image.url }}" download class="btn btn-outline btn-sm">⬇ Download</a>
+      <div class="photo-grid photo-grid--customer">
+        {% for photo in photos %}
+        <article class="photo-card photo-card--client">
+          <a href="{{ photo.image.url }}" target="_blank" rel="noopener noreferrer">
+            <img src="{{ photo.image.url }}" alt="Photo {{ forloop.counter }} from your session" loading="lazy">
+          </a>
+          <div class="photo-card-body flex justify-between align-center">
+            <span class="text-muted text-small gallery-photo-label">#{{ forloop.counter }}</span>
+            <a href="{{ photo.image.url }}" download class="btn btn-gallery-dl btn-sm">Download</a>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="gallery-empty-wrap">
+        <div class="empty-state gallery-empty-state">
+          <span class="gallery-empty-icon" aria-hidden="true">⏳</span>
+          <h3>Almost there</h3>
+          <p>Your photographer is still preparing your gallery. Please check again soon.</p>
+          <a href="{% url 'customer_dashboard' %}" class="btn btn-gallery-primary mt-2">Back to dashboard</a>
         </div>
       </div>
-      {% endfor %}
-    </div>
-    {% else %}
-    <div class="empty-state">
-      <span class="icon">⏳</span>
-      <h3>Photos Not Ready Yet</h3>
-      <p>Your photographer is still processing your session. Check back soon!</p>
-      <a href="{% url 'customer_dashboard' %}" class="btn btn-primary mt-2">Back to Dashboard</a>
-    </div>
-    {% endif %}
+      {% endif %}
 
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -2,7 +2,7 @@
 {% block title %}Booking #{{ booking.id }} — PhotoBook{% endblock %}
 {% block content %}
 
-<div class="flex" style="min-height: calc(100vh - 56px);">
+<div class="app-layout">
   <div class="sidebar">
     <div class="sidebar-title">Photographer</div>
     <a href="{% url 'photographer_dashboard' %}">🏠 All Bookings</a>
@@ -11,45 +11,41 @@
 
   <div class="main-content">
 
-    <!-- Header -->
-    <div class="flex justify-between align-center" style="margin-bottom:1.5rem;">
+    <header class="booking-page-header">
       <div>
-        <h1 style="font-size:1.4rem; color:#1e3a5f;">Booking #{{ booking.id }}</h1>
-        <p class="text-muted text-small">
-          👤 {{ booking.customer.username }} &nbsp;|&nbsp;
-          📅 {{ booking.session_date }} &nbsp;|&nbsp;
-          🕐 {{ booking.time_12h }}
+        <h1>Booking #{{ booking.id }}</h1>
+        <p class="meta">
+          <strong>{{ booking.customer.username }}</strong>
+          · {{ booking.session_date }}
+          · {{ booking.time_12h }}
         </p>
       </div>
       <a href="{% url 'photographer_dashboard' %}" class="btn btn-outline">← Back</a>
-    </div>
+    </header>
 
-    <!-- Stats -->
     <div class="stats-row">
       <div class="stat-card">
         <div class="stat-number" id="total-count">{{ photos.count }}</div>
-        <div class="stat-label">Total Photos</div>
+        <div class="stat-label">Total photos</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number" style="color:#16a34a;" id="pass-count">{{ photos|length }}</div>
-        <div class="stat-label">Passing</div>
+        <div class="stat-number stat-number--success" id="pass-count">{{ photos|length }}</div>
+        <div class="stat-label"> gallery</div>
       </div>
     </div>
 
-    <!-- Upload -->
     <div class="upload-box">
-      <h3>📤 Upload Photos</h3>
-      <div class="flex gap-2 align-center" style="flex-wrap:wrap;">
-        <input type="file" id="photo-input" multiple accept="image/*" style="flex:1; min-width:200px;">
-        <button onclick="uploadPhotos()" class="btn btn-primary">Upload & Analyse</button>
+      <h3>Upload photos</h3>
+      <div class="upload-row">
+        <input type="file" id="photo-input" multiple accept="image/*">
+        <button type="button" onclick="uploadPhotos()" class="btn btn-primary">Analyze</button>
       </div>
-      <p class="text-muted text-small mt-1">Select multiple photos. The AI pipeline runs automatically on each one.</p>
-      <div id="upload-status" class="text-small mt-1" style="color:#2563eb;"></div>
+      <p class="text-muted text-small mt-1">Select multiple images. The AI pipeline runs on each file automatically.</p>
+      <div id="upload-status" class="upload-status"></div>
     </div>
 
-    <!-- Photo grid -->
     {% if photos %}
-    <h3 style="margin-bottom:1rem; color:#1e3a5f;">All Photos ({{ photos.count }})</h3>
+    <h2 class="section-title">All photos ({{ photos.count }})</h2>
     <div class="photo-grid" id="photo-grid">
       {% for photo in photos %}
       <div class="photo-card" id="photo-{{ photo.id }}">

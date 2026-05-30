@@ -1,0 +1,329 @@
+/* Customer gallery — load as separate file so browsers fetch fresh CSS (cache bust). */
+
+body:has(.customer-gallery-view) {
+  background: #07050c;
+  color: #e8e4dc;
+}
+
+body:has(.customer-gallery-view) .page-wrapper {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  background: transparent;
+}
+
+body:has(.customer-gallery-view) nav.navbar {
+  background: linear-gradient(90deg, #1a0d24 0%, #2a1838 50%, #1a1528 100%);
+  border-bottom: 1px solid rgba(212, 168, 83, 0.28);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+}
+
+body:has(.customer-gallery-view) .navbar-brand {
+  color: #fcebc7;
+}
+
+body:has(.customer-gallery-view) .navbar-user {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.customer-gallery-view {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+}
+
+.customer-gallery-view .sidebar {
+  width: 232px;
+  background: linear-gradient(180deg, #1a0d24 0%, #0d0512 100%);
+  border-right: 1px solid rgba(212, 168, 83, 0.22);
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.04);
+}
+.customer-gallery-view .sidebar-title {
+  color: rgba(212, 168, 83, 0.55);
+  letter-spacing: 0.12em;
+}
+.customer-gallery-view .sidebar a {
+  color: rgba(245, 240, 232, 0.82);
+  border-radius: 10px;
+}
+.customer-gallery-view .sidebar a:hover,
+.customer-gallery-view .sidebar a.active {
+  background: linear-gradient(90deg, rgba(212, 168, 83, 0.18) 0%, rgba(124, 58, 237, 0.12) 100%);
+  color: #fff7ed;
+}
+
+.customer-gallery-view .main-content {
+  position: relative;
+  overflow-x: hidden;
+  isolation: isolate;
+  padding: 0;
+  background: #0a0610;
+  background-image:
+    radial-gradient(ellipse 90% 70% at 100% -10%, rgba(124, 58, 237, 0.45) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 0% 100%, rgba(212, 168, 83, 0.18) 0%, transparent 50%),
+    linear-gradient(168deg, #0f0818 0%, #120b1a 35%, #08060c 100%);
+}
+
+.customer-gallery-view .main-content::before {
+  content: "";
+  position: absolute;
+  width: min(520px, 90vw);
+  height: min(520px, 90vw);
+  top: -8rem;
+  right: -6rem;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.35) 0%, transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+}
+.customer-gallery-view .main-content::after {
+  content: "";
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  bottom: -4rem;
+  left: -5rem;
+  background: radial-gradient(circle, rgba(212, 168, 83, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.customer-gallery-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2rem 1.75rem 3.5rem;
+  font-family: "Outfit", "Segoe UI", system-ui, sans-serif;
+}
+
+.customer-gallery-view .gallery-header-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1.75rem 1.85rem;
+  border-radius: 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    rgba(124, 58, 237, 0.08) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+    0 24px 48px rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.customer-gallery-view .gallery-header-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.customer-gallery-view .gallery-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #d4a853;
+  margin-bottom: 0.5rem;
+}
+
+.customer-gallery-view .gallery-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.85rem, 4vw, 2.45rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.65rem;
+  background: linear-gradient(105deg, #fff9f0 0%, #e8c478 42%, #f0e6d8 78%, #c4b5fd 110%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.customer-gallery-view .gallery-lead {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(226, 220, 210, 0.72);
+  max-width: 34rem;
+}
+
+.customer-gallery-view .session-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.customer-gallery-view .session-pill {
+  background: rgba(124, 58, 237, 0.25);
+  color: #ede9fe;
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+.customer-gallery-view .session-pill--muted {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(245, 240, 232, 0.85);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.customer-gallery-view .btn-gallery-back {
+  flex-shrink: 0;
+  border-radius: 999px;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.88rem;
+  border: 1px solid rgba(212, 168, 83, 0.45);
+  color: #fcebc7;
+  background: rgba(212, 168, 83, 0.1);
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.customer-gallery-view .btn-gallery-back:hover {
+  background: rgba(212, 168, 83, 0.22);
+  border-color: #e8c478;
+  color: #fffef8;
+  transform: translateY(-1px);
+}
+
+.customer-gallery-view .gallery-toolbar {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.customer-gallery-view .gallery-count {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+  color: rgba(226, 220, 210, 0.65);
+}
+.customer-gallery-view .gallery-count strong {
+  color: #fcebc7;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+.customer-gallery-view .gallery-count-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #34d399, #10b981);
+  box-shadow: 0 0 12px rgba(52, 211, 153, 0.65);
+}
+
+.customer-gallery-view .photo-grid--customer {
+  gap: 1.35rem;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.customer-gallery-view .photo-card {
+  background: #14101c;
+  border-radius: 16px;
+  border: 1px solid rgba(212, 168, 83, 0.28);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.25),
+    0 20px 40px rgba(0, 0, 0, 0.35);
+}
+.customer-gallery-view .photo-card:hover {
+  border-color: rgba(232, 196, 120, 0.55);
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.3),
+    0 28px 56px rgba(124, 58, 237, 0.15);
+}
+.customer-gallery-view .photo-card > a {
+  background: #0a0810;
+}
+.customer-gallery-view .photo-card-body {
+  background: linear-gradient(180deg, #1c1626 0%, #15101e 100%);
+  border-top: 1px solid rgba(212, 168, 83, 0.15);
+}
+.customer-gallery-view .gallery-photo-label {
+  color: rgba(200, 190, 175, 0.75) !important;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.customer-gallery-view .btn-gallery-dl {
+  border-radius: 999px;
+  border: 1px solid rgba(212, 168, 83, 0.5);
+  color: #1a0d12;
+  background: linear-gradient(180deg, #f0d78c 0%, #d4a853 100%);
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 0.35rem 0.85rem;
+}
+.customer-gallery-view .btn-gallery-dl:hover {
+  background: linear-gradient(180deg, #fff3d4 0%, #e8c478 100%);
+  border-color: #fcebc7;
+  color: #1a0d12;
+}
+
+.customer-gallery-view .photo-card--client > a::after {
+  background: rgba(12, 6, 18, 0.72);
+  color: #fcebc7;
+  font-family: "Outfit", sans-serif;
+  letter-spacing: 0.04em;
+}
+
+.customer-gallery-view .gallery-empty-wrap {
+  margin: 2.5rem auto 0;
+  max-width: 26rem;
+  padding: 2.75rem 2rem;
+  border-radius: 20px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+.customer-gallery-view .gallery-empty-state {
+  color: rgba(200, 190, 175, 0.75);
+  padding: 0;
+}
+.customer-gallery-view .gallery-empty-state h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  color: #fcebc7;
+  font-size: 1.35rem;
+}
+.customer-gallery-view .gallery-empty-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  margin: 0 auto 1.25rem;
+  font-size: 2rem;
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.25);
+  border: 1px solid rgba(167, 139, 250, 0.35);
+}
+
+.customer-gallery-view .btn-gallery-primary {
+  border-radius: 999px;
+  padding: 0.55rem 1.5rem;
+  font-weight: 700;
+  border: none;
+  background: linear-gradient(120deg, #7c3aed 0%, #5b21b6 40%, #b45309 100%);
+  background-size: 200% auto;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(91, 33, 182, 0.45);
+  transition: background-position 0.35s ease, transform 0.15s;
+}
+.customer-gallery-view .btn-gallery-primary:hover {
+  background-position: 100% center;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 640px) {
+  .customer-gallery-inner {
+    padding: 1.25rem 1rem 2.5rem;
+  }
+  .customer-gallery-view .gallery-header-card {
+    padding: 1.35rem 1.25rem;
+  }
+}
